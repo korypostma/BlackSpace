@@ -126,7 +126,7 @@ namespace BlackSpace
 
             //Ignore empty lines
             if (line.Length == 0) { return; }
-
+     
             // Loop through each character, and place a box around any 'a'
             for (int charIndex = line.End - 1; charIndex >= line.Start; --charIndex)
             //for (int charIndex = line.Start; charIndex < line.End; charIndex++)

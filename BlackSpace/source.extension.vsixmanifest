@@ -1,21 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="BlackSpace.Kory Postma.3691f672-da80-4ceb-8b31-c0b8fc70b502" Version="1.1" Language="en-US" Publisher="Kory Postma" />
+    <Identity Id="BlackSpace.Kory Postma.3691f672-da80-4ceb-8b31-c0b8fc70b502" Version="1.1.1" Language="en-US" Publisher="Kory Postma" />
     <DisplayName>BlackSpace</DisplayName>
     <Description xml:space="preserve">Highlights end-of-line whitespace (spaces and tabs) real-time in the editor.  Allows for removal of them as well.</Description>
     <Icon>BlackSpaceLarge.ico</Icon>
     <PreviewImage>BlackSpacePreview.png</PreviewImage>
   </Metadata>
-  <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
+  <Installation AllUsers="true">
+    <InstallationTarget Version="[14.0,16.0)" Id="Microsoft.VisualStudio.Community" />
   </Installation>
   <Dependencies>
-    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.6,)" />
     <Dependency Id="Microsoft.VisualStudio.MPF.14.0" DisplayName="Visual Studio MPF 14.0" d:Source="Installed" Version="[14.0]" />
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
   </Assets>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0.26208.0,16.0)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
 </PackageManifest>

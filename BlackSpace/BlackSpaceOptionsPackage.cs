@@ -324,27 +324,27 @@ namespace BlackSpace
 
         //private void VSSolutionEvents_Renamed(string OldName)
         //{
-
+            
         //}
 
         //private void VSSolutionEvents_QueryCloseSolution(ref bool fCancel)
         //{
-
+            
         //}
 
         //private void VSSolutionEvents_ProjectRenamed(Project Project, string OldName)
         //{
-
+            
         //}
 
         //private void VSSolutionEvents_ProjectRemoved(Project Project)
         //{
-
+            
         //}
 
         //private void VSSolutionEvents_ProjectAdded(Project Project)
         //{
-
+            
         //}
 
         //private void VSSolutionEvents_Opened()
@@ -370,22 +370,22 @@ namespace BlackSpace
 
         //private void VSBuildEvents_OnBuildProjConfigDone(string Project, string ProjectConfig, string Platform, string SolutionConfig, bool Success)
         //{
-
+            
         //}
 
         //private void VSBuildEvents_OnBuildProjConfigBegin(string Project, string ProjectConfig, string Platform, string SolutionConfig)
         //{
-
+            
         //}
 
         //private void VSBuildEvents_OnBuildDone(vsBuildScope Scope, vsBuildAction Action)
         //{
-
+            
         //}
 
         //private void VSBuildEvents_OnBuildBegin(vsBuildScope Scope, vsBuildAction Action)
         //{
-
+            
         //}
 
         //private void VSDocumentEvents_DocumentOpening(string DocumentPath, bool ReadOnly)
