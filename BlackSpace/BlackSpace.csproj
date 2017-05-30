@@ -90,6 +90,14 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="index.html" />
+    <Content Include="LICENSE-2.0.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="RELEASE-NOTES.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\BlackSpaceOptionsPackage.ico" />
     <Content Include="stylesheet.css" />
   </ItemGroup>

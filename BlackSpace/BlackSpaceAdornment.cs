@@ -1,6 +1,19 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="BlackSpaceAdornment.cs" company="Company">
-//     Copyright (c) Company.  All rights reserved.
+// <copyright file="BlackSpaceAdornment.cs" company="Kory Postma">
+//
+//   Copyright 2016-2017 Kory Postma
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
 // </copyright>
 //------------------------------------------------------------------------------
 
@@ -126,8 +139,8 @@ namespace BlackSpace
 
             //Ignore empty lines
             if (line.Length == 0) { return; }
-     
-            // Loop through each character, and place a box around any 'a'
+
+            // Loop through each character from end to beginning, and place a box around spaces and tabs at the end of lines
             for (int charIndex = line.End - 1; charIndex >= line.Start; --charIndex)
             //for (int charIndex = line.Start; charIndex < line.End; charIndex++)
             {
