@@ -1,3 +1,5 @@
+Version 1.1.3 - 2019-03-02 - Fixed Visual Studio 2017 compatibility issue.  Fixed extension unable to automatically update issue.
+Version 1.1.2 - 2019-03-02 - Updated to support Visual Studio 2019.
 Version 1.1.1 - 2017-05-15 - Updated manifest to support Visual Studio 2017.
 
 Version 1.1 - 2016-08-02 - Fix crash when creating empty files.
