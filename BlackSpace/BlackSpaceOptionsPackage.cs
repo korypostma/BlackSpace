@@ -26,6 +26,8 @@ using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE; //DocumentEvents
+using System.Threading;
+using Task = System.Threading.Tasks.Task;
 
 namespace BlackSpace
 {
@@ -218,13 +220,13 @@ namespace BlackSpace
     /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
     /// </para>
     /// </remarks>
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
-    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
+    [ProvideAutoLoad(UIContextGuids80.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
     [Guid(BlackSpaceOptionsPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideOptionPage(typeof(OptionDialogPage), "Black Space", "General", 0, 0, true)]
-    public sealed class BlackSpaceOptionsPackage : Package
+    public sealed class BlackSpaceOptionsPackage : AsyncPackage
     {
         /// <summary>
         /// BlackSpaceOptionsPackage GUID string.
@@ -265,50 +267,52 @@ namespace BlackSpace
             }
         }
 
-        #region Package Members
+		#region Package Members
 
-        /// <summary>
-        /// Initialization of the package; this method is called right after the package is sited, so this is the place
-        /// where you can put all the initialization code that rely on services provided by VisualStudio.
-        /// </summary>
-        protected override void Initialize()
-        {
-            base.Initialize();
+		/// <summary>
+		/// Initialization of the package; this method is called right after the package is sited, so this is the place
+		/// where you can put all the initialization code that rely on services provided by VisualStudio.
+		/// </summary>
+		protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
+		{
+			await base.InitializeAsync(cancellationToken, progress);
 
-            //dte = (DTE)GetGlobalService(typeof(DTE));
+			//dte = (DTE)GetGlobalService(typeof(DTE));
 
-            //VSDocumentEvents = dte.Events.DocumentEvents[null];
-            //if (VSDocumentEvents != null)
-            //{
-            //    VSDocumentEvents.DocumentClosing += VSDocumentEvents_DocumentClosing;
-            //    VSDocumentEvents.DocumentOpened += VSDocumentEvents_DocumentOpened;
-            //    VSDocumentEvents.DocumentOpening += VSDocumentEvents_DocumentOpening;
-            //    VSDocumentEvents.DocumentSaved += VSDocumentEvents_DocumentSaved;
-            //}
+			//VSDocumentEvents = dte.Events.DocumentEvents[null];
+			//if (VSDocumentEvents != null)
+			//{
+			//    VSDocumentEvents.DocumentClosing += VSDocumentEvents_DocumentClosing;
+			//    VSDocumentEvents.DocumentOpened += VSDocumentEvents_DocumentOpened;
+			//    VSDocumentEvents.DocumentOpening += VSDocumentEvents_DocumentOpening;
+			//    VSDocumentEvents.DocumentSaved += VSDocumentEvents_DocumentSaved;
+			//}
 
-            //VSBuildEvents = dte.Events.BuildEvents;
-            //if (VSBuildEvents != null)
-            //{
-            //    VSBuildEvents.OnBuildBegin += VSBuildEvents_OnBuildBegin;
-            //    VSBuildEvents.OnBuildDone += VSBuildEvents_OnBuildDone;
-            //    VSBuildEvents.OnBuildProjConfigBegin += VSBuildEvents_OnBuildProjConfigBegin;
-            //    VSBuildEvents.OnBuildProjConfigDone += VSBuildEvents_OnBuildProjConfigDone;
-            //}
+			//VSBuildEvents = dte.Events.BuildEvents;
+			//if (VSBuildEvents != null)
+			//{
+			//    VSBuildEvents.OnBuildBegin += VSBuildEvents_OnBuildBegin;
+			//    VSBuildEvents.OnBuildDone += VSBuildEvents_OnBuildDone;
+			//    VSBuildEvents.OnBuildProjConfigBegin += VSBuildEvents_OnBuildProjConfigBegin;
+			//    VSBuildEvents.OnBuildProjConfigDone += VSBuildEvents_OnBuildProjConfigDone;
+			//}
 
-            //VSSolutionEvents = dte.Events.SolutionEvents;
-            //if (VSSolutionEvents != null)
-            //{
-            //    VSSolutionEvents.AfterClosing += VSSolutionEvents_AfterClosing;
-            //    VSSolutionEvents.BeforeClosing += VSSolutionEvents_BeforeClosing;
-            //    VSSolutionEvents.Opened += VSSolutionEvents_Opened;
-            //    VSSolutionEvents.ProjectAdded += VSSolutionEvents_ProjectAdded;
-            //    VSSolutionEvents.ProjectRemoved += VSSolutionEvents_ProjectRemoved;
-            //    VSSolutionEvents.ProjectRenamed += VSSolutionEvents_ProjectRenamed;
-            //    VSSolutionEvents.QueryCloseSolution += VSSolutionEvents_QueryCloseSolution;
-            //    VSSolutionEvents.Renamed += VSSolutionEvents_Renamed;
-            //}
+			//VSSolutionEvents = dte.Events.SolutionEvents;
+			//if (VSSolutionEvents != null)
+			//{
+			//    VSSolutionEvents.AfterClosing += VSSolutionEvents_AfterClosing;
+			//    VSSolutionEvents.BeforeClosing += VSSolutionEvents_BeforeClosing;
+			//    VSSolutionEvents.Opened += VSSolutionEvents_Opened;
+			//    VSSolutionEvents.ProjectAdded += VSSolutionEvents_ProjectAdded;
+			//    VSSolutionEvents.ProjectRemoved += VSSolutionEvents_ProjectRemoved;
+			//    VSSolutionEvents.ProjectRenamed += VSSolutionEvents_ProjectRenamed;
+			//    VSSolutionEvents.QueryCloseSolution += VSSolutionEvents_QueryCloseSolution;
+			//    VSSolutionEvents.Renamed += VSSolutionEvents_Renamed;
+			//}
 
-            OptionDialogPage page = (OptionDialogPage)GetDialogPage(typeof(OptionDialogPage));
+			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+			OptionDialogPage page = (OptionDialogPage)GetDialogPage(typeof(OptionDialogPage));
             if (page != null)
             {
                 page.RegisterPackage(this);
