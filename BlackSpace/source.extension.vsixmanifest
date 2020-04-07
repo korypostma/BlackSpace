@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="BlackSpace.Kory Postma.3691f672-da80-4ceb-8b31-c0b8fc70b502" Version="1.1.3" Language="en-US" Publisher="Kory Postma" />
+        <Identity Id="BlackSpace.Kory Postma.3691f672-da80-4ceb-8b31-c0b8fc70b502" Version="1.2.0" Language="en-US" Publisher="Kory Postma" />
         <DisplayName>BlackSpace</DisplayName>
         <Description xml:space="preserve">Highlights end-of-line whitespace (spaces and tabs) real-time in the editor.  Allows for removal of them as well.</Description>
         <MoreInfo>https://github.com/korypostma/BlackSpace</MoreInfo>
