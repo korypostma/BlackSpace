@@ -22,10 +22,12 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE; //DocumentEvents
+using Task = System.Threading.Tasks.Task;
 
 namespace BlackSpace
 {
@@ -218,13 +220,13 @@ namespace BlackSpace
     /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
     /// </para>
     /// </remarks>
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
-    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
+    [ProvideAutoLoad(UIContextGuids80.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
     [Guid(BlackSpaceOptionsPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideOptionPage(typeof(OptionDialogPage), "Black Space", "General", 0, 0, true)]
-    public sealed class BlackSpaceOptionsPackage : Package
+    public sealed class BlackSpaceOptionsPackage : AsyncPackage
     {
         /// <summary>
         /// BlackSpaceOptionsPackage GUID string.
@@ -271,9 +273,9 @@ namespace BlackSpace
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
         /// </summary>
-        protected override void Initialize()
+        protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            base.Initialize();
+            await base.InitializeAsync(cancellationToken, progress);
 
             //dte = (DTE)GetGlobalService(typeof(DTE));
 
@@ -308,6 +310,8 @@ namespace BlackSpace
             //    VSSolutionEvents.Renamed += VSSolutionEvents_Renamed;
             //}
 
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
             OptionDialogPage page = (OptionDialogPage)GetDialogPage(typeof(OptionDialogPage));
             if (page != null)
             {
@@ -337,27 +341,27 @@ namespace BlackSpace
 
         //private void VSSolutionEvents_Renamed(string OldName)
         //{
-            
+
         //}
 
         //private void VSSolutionEvents_QueryCloseSolution(ref bool fCancel)
         //{
-            
+
         //}
 
         //private void VSSolutionEvents_ProjectRenamed(Project Project, string OldName)
         //{
-            
+
         //}
 
         //private void VSSolutionEvents_ProjectRemoved(Project Project)
         //{
-            
+
         //}
 
         //private void VSSolutionEvents_ProjectAdded(Project Project)
         //{
-            
+
         //}
 
         //private void VSSolutionEvents_Opened()
@@ -383,22 +387,22 @@ namespace BlackSpace
 
         //private void VSBuildEvents_OnBuildProjConfigDone(string Project, string ProjectConfig, string Platform, string SolutionConfig, bool Success)
         //{
-            
+
         //}
 
         //private void VSBuildEvents_OnBuildProjConfigBegin(string Project, string ProjectConfig, string Platform, string SolutionConfig)
         //{
-            
+
         //}
 
         //private void VSBuildEvents_OnBuildDone(vsBuildScope Scope, vsBuildAction Action)
         //{
-            
+
         //}
 
         //private void VSBuildEvents_OnBuildBegin(vsBuildScope Scope, vsBuildAction Action)
         //{
-            
+
         //}
 
         //private void VSDocumentEvents_DocumentOpening(string DocumentPath, bool ReadOnly)
