@@ -326,7 +326,7 @@ namespace BlackSpace
         private void WriteToOutputWindow(Guid paneGuid, string message)
         {
             var pane = GetOutputPane(paneGuid, "CustomBuilder Output", true, true, message);
-            pane.OutputString(message + "\n");
+            pane.OutputStringThreadSafe(message + "\n");
             pane.Activate();        // Activates the new pane to show the output we just add.
         }
 
