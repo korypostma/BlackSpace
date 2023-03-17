@@ -26,7 +26,6 @@ using System.Threading;
 using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using EnvDTE; //DocumentEvents
 using Task = System.Threading.Tasks.Task;
 
 namespace BlackSpace
@@ -338,125 +337,6 @@ namespace BlackSpace
             output.GetPane(ref paneGuid, out pane);
             return pane;
         }
-
-        //private void VSSolutionEvents_Renamed(string OldName)
-        //{
-
-        //}
-
-        //private void VSSolutionEvents_QueryCloseSolution(ref bool fCancel)
-        //{
-
-        //}
-
-        //private void VSSolutionEvents_ProjectRenamed(Project Project, string OldName)
-        //{
-
-        //}
-
-        //private void VSSolutionEvents_ProjectRemoved(Project Project)
-        //{
-
-        //}
-
-        //private void VSSolutionEvents_ProjectAdded(Project Project)
-        //{
-
-        //}
-
-        //private void VSSolutionEvents_Opened()
-        //{
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "Opened");
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "Opened");
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "Opened");
-        //}
-
-        //private void VSSolutionEvents_BeforeClosing()
-        //{
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "BeforeClosing");
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "BeforeClosing");
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "BeforeClosing");
-        //}
-
-        //private void VSSolutionEvents_AfterClosing()
-        //{
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "AfterClosing");
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "AfterClosing");
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "AfterClosing");
-        //}
-
-        //private void VSBuildEvents_OnBuildProjConfigDone(string Project, string ProjectConfig, string Platform, string SolutionConfig, bool Success)
-        //{
-
-        //}
-
-        //private void VSBuildEvents_OnBuildProjConfigBegin(string Project, string ProjectConfig, string Platform, string SolutionConfig)
-        //{
-
-        //}
-
-        //private void VSBuildEvents_OnBuildDone(vsBuildScope Scope, vsBuildAction Action)
-        //{
-
-        //}
-
-        //private void VSBuildEvents_OnBuildBegin(vsBuildScope Scope, vsBuildAction Action)
-        //{
-
-        //}
-
-        //private void VSDocumentEvents_DocumentOpening(string DocumentPath, bool ReadOnly)
-        //{
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "DocumentOpening: " + DocumentPath);
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "DocumentOpening: " + DocumentPath);
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "DocumentOpening: " + DocumentPath);
-        //}
-
-        //private void VSDocumentEvents_DocumentOpened(Document Document)
-        //{
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "Opened: ");
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "Opened: ");
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "Opened: ");
-        //    return;
-        //    //if (Document == null)
-        //    //{
-        //    //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "Opened: null");
-        //    //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "Opened: null");
-        //    //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "Opened: null");
-        //    //    return;
-        //    //}
-        //    //WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "Opened: " + Document.FullName);
-        //    //WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "Opened: " + Document.FullName);
-        //    //WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "Opened: " + Document.FullName);
-        //}
-
-        //private void VSDocumentEvents_DocumentClosing(Document Document)
-        //{
-        //    if (Document == null)
-        //    {
-        //        WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "Closing: null");
-        //        WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "Closing: null");
-        //        WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "Closing: null");
-        //        return;
-        //    }
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "Closing: " + Document.FullName);
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "Closing: " + Document.FullName);
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "Closing: " + Document.FullName);
-        //}
-
-        //private void VSDocumentEvents_DocumentSaved(Document Document)
-        //{
-        //    if (Document == null)
-        //    {
-        //        WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "Saved: null");
-        //        WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "Saved: null");
-        //        WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "Saved: null");
-        //        return;
-        //    }
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.DebugPane_guid, "Saved: " + Document.FullName);
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, "Saved: " + Document.FullName);
-        //    WriteToOutputWindow(Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid, "Saved: " + Document.FullName);
-        //}
 
         BlackSpaceAdornment adornment = null;
 
