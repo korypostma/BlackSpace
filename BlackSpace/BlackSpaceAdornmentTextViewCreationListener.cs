@@ -1,7 +1,7 @@
 ﻿//------------------------------------------------------------------------------
 // <copyright file="TextAdornment1TextViewCreationListener.cs" company="Kory Postma">
 //
-//   Copyright 2016-2017 Kory Postma
+//   Copyright 2016-2023 Kory Postma
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ namespace BlackSpace
         [Name("BlackSpaceTextAdornment")]
         [Order(After = PredefinedAdornmentLayers.Selection, Before = PredefinedAdornmentLayers.Text)]
         private AdornmentLayerDefinition editorAdornmentLayer;
+        private BlackSpaceAdornment Adornment;
 
 #pragma warning restore 649, 169
 
@@ -56,7 +57,7 @@ namespace BlackSpace
         public void TextViewCreated(IWpfTextView textView)
         {
             // The adornment will listen to any event that changes the layout (text changes, scrolling, etc)
-            new BlackSpaceAdornment(textView);
+            Adornment = new BlackSpaceAdornment(textView);
         }
 
         #endregion

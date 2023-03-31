@@ -1,7 +1,7 @@
 ﻿//------------------------------------------------------------------------------
 // <copyright file="DeleteWhiteSpaceWhenSavingCommandHandler.cs" company="Kory Postma">
 //
-//   Copyright 2016-2017 Kory Postma
+//   Copyright 2016-2023 Kory Postma
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -42,13 +42,15 @@ namespace BlackSpace
 
         public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             if (pguidCmdGroup == CmdGroup && CmdID.Contains(nCmdID))
             {
-                if (View != null && View.TextBuffer != null && BlackSpaceOptionsPackage.OptionPage != null && BlackSpaceOptionsPackage.OptionPage.bDeleteWhiteSpaceWhenSaving)
+                if (View != null && View.TextBuffer != null && BlackSpaceSettings.Instance.DeleteWhiteSpaceWhenSaving)
                 {
                     DeleteWhiteSpace(View.TextBuffer);
                 }
             }
+
             return NextCmdTarg.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
         }
 
@@ -59,22 +61,28 @@ namespace BlackSpace
             {
                 string sLine = Line.GetText();
                 int i = Line.Length;
+
                 //If this line is empty then move on
                 if (i == 0) { continue; }
+
                 //Start at the end of the line and find the starting index of the whitespace
-                while (--i >= 0 && Char.IsWhiteSpace(sLine[i])) { };
+                while (--i >= 0 && char.IsWhiteSpace(sLine[i])) { };
+
                 ++i;
+
                 //If we found whitespace then remove it, this if check is unnecessary, but avoids us having to call Delete below unnecessarily
                 if (i != Line.Length)
                 {
                     EditBuffer.Delete(Line.Start.Position + i, Line.Length - i);
                 }
             }
+
             EditBuffer.Apply();
         }
 
         public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             if (pguidCmdGroup == CmdGroup)
             {
                 for (uint i = 0; i < cCmds; ++i)
@@ -83,10 +91,12 @@ namespace BlackSpace
                     {
                         //One of the commands that we handle is contained here, so tell them we can handle it
                         prgCmds[i].cmdf = (uint)(OLECMDF.OLECMDF_ENABLED | OLECMDF.OLECMDF_SUPPORTED);
+
                         return VSConstants.S_OK;
                     }
                 }
             }
+
             return NextCmdTarg.QueryStatus(pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
     }

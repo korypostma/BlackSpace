@@ -1,7 +1,7 @@
 ﻿//------------------------------------------------------------------------------
 // <copyright file="BlackSpaceAdornment.cs" company="Kory Postma">
 //
-//   Copyright 2016-2017 Kory Postma
+//   Copyright 2016-2023 Kory Postma
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -32,6 +32,14 @@ namespace BlackSpace
     /// </summary>
     internal sealed class BlackSpaceAdornment
     {
+        #region Static Functions
+        public static Color ToMediaColor(System.Drawing.Color inColor)
+        {
+            return Color.FromArgb(inColor.A, inColor.R, inColor.G, inColor.B);
+        }
+        #endregion
+
+        #region Member Variables
         /// <summary>
         /// The layer of the adornment.
         /// </summary>
@@ -42,20 +50,6 @@ namespace BlackSpace
         /// </summary>
         private readonly IWpfTextView view;
 
-        /// <summary>
-        /// Adornment brushs.
-        /// </summary>
-        private Brush spacesBrush;
-        private Pen spacesPen;
-        private Brush tabsBrush;
-        private Pen tabsPen;
-
-        public static BlackSpaceOptionsPackage Package
-        {
-            get;
-            private set;
-        }
-
         [Import]
         public ITextDocumentFactoryService TextDocumentFactoryService
         {
@@ -64,13 +58,73 @@ namespace BlackSpace
         }
 
         /// <summary>
-        /// Initializes the singleton instance of the command.
+        /// Adornment brushs.
         /// </summary>
-        /// <param name="inPackage">Owner package, not null.</param>
-        public static void Initialize(BlackSpaceOptionsPackage inPackage)
+        private Brush spacesBrush;
+        private Pen spacesPen;
+        private Brush tabsBrush;
+        private Pen tabsPen;
+
+        public System.Windows.Media.Brush SpacesBrush
         {
-            Package = inPackage;
+            get
+            {
+                if (spacesBrush == null)
+                {
+                    spacesBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0xa0, 0x2b, 0x00, 0x95));
+                    spacesBrush.Freeze();
+                }
+
+                return spacesBrush;
+            }
         }
+
+        public System.Windows.Media.Pen SpacesPen
+        {
+            get
+            {
+                if (spacesPen == null)
+                {
+                    var spacesPenBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0x2b, 0x00, 0xb5));
+                    spacesPenBrush.Freeze();
+                    spacesPen = new System.Windows.Media.Pen(spacesPenBrush, 1.0);
+                    spacesPen.Freeze();
+                }
+
+                return spacesPen;
+            }
+        }
+
+        public System.Windows.Media.Brush TabsBrush
+        {
+            get
+            {
+                if (tabsBrush == null)
+                {
+                    tabsBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0xa0, 0x2b, 0x00, 0x65));
+                    tabsBrush.Freeze();
+                }
+
+                return tabsBrush;
+            }
+        }
+
+        public System.Windows.Media.Pen TabsPen
+        {
+            get
+            {
+                if (tabsPen == null)
+                {
+                    var tabsPenBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0x3b, 0x00, 0x85));
+                    tabsPenBrush.Freeze();
+                    tabsPen = new System.Windows.Media.Pen(tabsPenBrush, 1.0);
+                    tabsPen.Freeze();
+                }
+
+                return tabsPen;
+            }
+        }
+        #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BlackSpaceAdornment"/> class.
@@ -83,33 +137,13 @@ namespace BlackSpace
                 throw new ArgumentNullException("view");
             }
 
-            this.layer = view.GetAdornmentLayer("BlackSpaceTextAdornment");
+            layer = view.GetAdornmentLayer("BlackSpaceTextAdornment");
 
             this.view = view;
-            this.view.LayoutChanged += this.OnLayoutChanged;
+            this.view.LayoutChanged += OnLayoutChanged;
 
-            if (Package != null)
-            {
-                //This will also update all of the brushes
-                Package.RegisterAdornment(this);
-            }
-            else
-            {
-                // Create the pen and brush to color the boxes around the end-of-line whitespace
-                spacesBrush = new SolidColorBrush(Color.FromArgb(0xa0, 0x2b, 0x00, 0x95));
-                spacesBrush.Freeze();
-                var spacesPenBrush = new SolidColorBrush(Color.FromArgb(0xff, 0x2b, 0x00, 0xb5));
-                spacesPenBrush.Freeze();
-                spacesPen = new Pen(spacesPenBrush, 1.0);
-                spacesPen.Freeze();
-
-                tabsBrush = new SolidColorBrush(Color.FromArgb(0xa0, 0x2b, 0x00, 0x65));
-                tabsBrush.Freeze();
-                var tabsPenBrush = new SolidColorBrush(Color.FromArgb(0xff, 0x3b, 0x00, 0x85));
-                tabsPenBrush.Freeze();
-                tabsPen = new Pen(tabsPenBrush, 1.0);
-                tabsPen.Freeze();
-            }
+            //Register this adornment, will cause it to load user settings and LoadSettings will update brushes
+            BlackSpaceSettings.Instance.RegisterAdornment(this);
         }
 
         /// <summary>
@@ -176,6 +210,27 @@ namespace BlackSpace
                     return;
                 }
             }
+        }
+
+        public void UpdateBrushesAndPens(Settings settings)
+        {
+            //Create the brushes and pens to color the end-of-line white-spaces
+            var spacesBrush = new SolidColorBrush(ToMediaColor(settings.Spaces.BackgroundColor));
+            spacesBrush.Freeze();
+            var spacesPenBrush = new SolidColorBrush(ToMediaColor(settings.Spaces.BorderColor));
+            spacesPenBrush.Freeze();
+            var spacesPen = new Pen(spacesPenBrush, settings.Spaces.BorderThickness);
+            spacesPen.Freeze();
+
+            var tabsBrush = new SolidColorBrush(ToMediaColor(settings.Tabs.BackgroundColor));
+            tabsBrush.Freeze();
+            var tabsPenBrush = new SolidColorBrush(ToMediaColor(settings.Tabs.BorderColor));
+            tabsPenBrush.Freeze();
+            var tabsPen = new Pen(tabsPenBrush, settings.Tabs.BorderThickness);
+            tabsPen.Freeze();
+
+            //Generate the brushes and pens
+            UpdateBrushesAndPens(spacesBrush, spacesPen, tabsBrush, tabsPen);
         }
 
         public void UpdateBrushesAndPens(Brush inSpacesBrush, Pen inSpacesPen, Brush inTabsBrush, Pen inTabsPen)

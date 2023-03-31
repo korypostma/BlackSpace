@@ -1,8 +1,0 @@
-Version 1.3.1 - 2023-03-16 - Created shared project that separates 2019 and 2022 versions, removed support for 2017.
-Version 1.3.0 - 2023-02-11 - Updated to support Visual Studio 2022 but it breaks support for 2017 and 2019.
-Version 1.2.0 - 2020-04-07 - Updated to handle Asynchronous Initilization for VS2019, Removed VS2015 support as it does not work with this change.
-Version 1.1.3 - 2019-03-02 - Fixed Visual Studio 2017 compatibility issue.  Fixed extension unable to automatically update issue.
-Version 1.1.2 - 2019-03-02 - Updated to support Visual Studio 2019.
-Version 1.1.1 - 2017-05-15 - Updated manifest to support Visual Studio 2017.
-Version 1.1.0 - 2016-08-02 - Fix crash when creating empty files.
-Version 1.0.0 - 2016-04-14 - Initial Version.
